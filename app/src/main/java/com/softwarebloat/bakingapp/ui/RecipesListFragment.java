@@ -1,6 +1,5 @@
 package com.softwarebloat.bakingapp.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,29 +20,12 @@ import java.util.List;
 
 public class RecipesListFragment extends Fragment {
 
-    OnRecipeClickListener mCallback;
-
     RecyclerView mRecyclerView;
 
     GridLayoutManager mLayoutManager;
 
     RecipesAdapter mAdapter;
 
-    public interface OnRecipeClickListener {
-        void onRecipeSelected(int position);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try {
-            mCallback = (OnRecipeClickListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement OnRecipeClickListener");
-        }
-    }
 
     public RecipesListFragment() {
     }
@@ -61,7 +43,7 @@ public class RecipesListFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new RecipesAdapter(getFakeRecipes());
+        mAdapter = new RecipesAdapter(getFakeRecipes(), (MainActivity) getActivity());
 
         mRecyclerView.setAdapter(mAdapter);
 
