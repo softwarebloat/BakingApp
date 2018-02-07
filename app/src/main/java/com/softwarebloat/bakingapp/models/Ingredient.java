@@ -1,4 +1,4 @@
-package com.softwarebloat.bakingapp.pojo;
+package com.softwarebloat.bakingapp.models;
 
 /**
  * Created by Nico on 2/6/18.

@@ -1,4 +1,4 @@
-package com.softwarebloat.bakingapp.pojo;
+package com.softwarebloat.bakingapp.models;
 
 
 import java.util.List;

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.softwarebloat.bakingapp.R;
-import com.softwarebloat.bakingapp.pojo.Recipe;
+import com.softwarebloat.bakingapp.models.Recipe;
 
 import java.util.List;
 

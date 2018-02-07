@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.softwarebloat.bakingapp.R;
 import com.softwarebloat.bakingapp.adapters.RecipesAdapter;
-import com.softwarebloat.bakingapp.pojo.Recipe;
+import com.softwarebloat.bakingapp.models.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
