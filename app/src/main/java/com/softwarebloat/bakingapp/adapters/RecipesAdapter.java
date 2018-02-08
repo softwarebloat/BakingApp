@@ -23,7 +23,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
     }
 
     public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
+        void onListItemClick(Recipe recipe);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
 
         @Override
         public void onClick(View v) {
-            mClickListener.onListItemClick(getAdapterPosition());
+            mClickListener.onListItemClick(recipes.get(getAdapterPosition()));
         }
     }
 }

@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.softwarebloat.bakingapp.R;
 import com.softwarebloat.bakingapp.adapters.RecipesAdapter;
+import com.softwarebloat.bakingapp.models.Recipe;
 
 
 public class MainActivity extends AppCompatActivity implements RecipesAdapter.ListItemClickListener{
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Li
     }
 
     @Override
-    public void onListItemClick(int clickedItemIndex) {
-        Toast.makeText(this, String.valueOf(clickedItemIndex), Toast.LENGTH_SHORT).show();
+    public void onListItemClick(Recipe recipe) {
+        Toast.makeText(this, recipe.getName(), Toast.LENGTH_SHORT).show();
     }
 }
