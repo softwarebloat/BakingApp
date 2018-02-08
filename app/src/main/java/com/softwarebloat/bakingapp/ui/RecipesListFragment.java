@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,15 @@ import android.view.ViewGroup;
 import com.softwarebloat.bakingapp.R;
 import com.softwarebloat.bakingapp.adapters.RecipesAdapter;
 import com.softwarebloat.bakingapp.models.Recipe;
+import com.softwarebloat.bakingapp.retrofit.RecipesService;
+import com.softwarebloat.bakingapp.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class RecipesListFragment extends Fragment {
@@ -25,6 +32,8 @@ public class RecipesListFragment extends Fragment {
     GridLayoutManager mLayoutManager;
 
     RecipesAdapter mAdapter;
+
+    private RecipesService mRecipesService;
 
 
     public RecipesListFragment() {
@@ -36,6 +45,8 @@ public class RecipesListFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_recipes_list, container, false);
 
+        mRecipesService = NetworkUtils.getRecipesService();
+
         mRecyclerView = rootView.findViewById(R.id.recipes_recycler_view);
 
         mLayoutManager = new GridLayoutManager(this.getActivity(), 1);
@@ -43,32 +54,33 @@ public class RecipesListFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new RecipesAdapter(getFakeRecipes(), (MainActivity) getActivity());
+        mAdapter = new RecipesAdapter(new ArrayList<Recipe>(0), (MainActivity) getActivity());
 
         mRecyclerView.setAdapter(mAdapter);
+
+        loadRecipes(); //TODO: check for internet connection
 
         return rootView;
     }
 
+    private void loadRecipes() {
+        mRecipesService.getRecipes()
+                .enqueue(new Callback<List<Recipe>>() {
+                    @Override
+                    public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                        if(response.isSuccessful()) {
+                            mAdapter.updateData(response.body());
+                        } else {
+                            int statusCode = response.code();
+                            Log.e(RecipesListFragment.class.getSimpleName(), "Error " + statusCode);
+                        }
+                    }
 
-    //only for test
-    private List<Recipe> getFakeRecipes() {
-        List<Recipe> recipes = new ArrayList<>();
-
-        Recipe recipe = new Recipe();
-        recipe.setName("Torta pasqualina");
-
-        Recipe recipe1 = new Recipe();
-        recipe1.setName("Parmigiana di melanzane");
-
-        Recipe recipe2 = new Recipe();
-        recipe2.setName("Pizza");
-
-        recipes.add(recipe);
-        recipes.add(recipe1);
-        recipes.add(recipe2);
-
-        return recipes;
+                    @Override
+                    public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                        Log.e(RecipesListFragment.class.getSimpleName(), "Error loading from API");
+                    }
+                });
     }
 
 }

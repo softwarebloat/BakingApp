@@ -47,6 +47,11 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
         return recipes != null ? recipes.size() : 0;
     }
 
+    public void updateData(List<Recipe> recipes) {
+        this.recipes = recipes;
+        notifyDataSetChanged();
+    }
+
     public class RecipesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView vRecipeName;
