@@ -1,14 +1,15 @@
 package com.softwarebloat.bakingapp.models;
 
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Recipe {
+public class Recipe implements Serializable {
 
     private Integer id;
     private String name;
-    private List<Ingredient> ingredients = null;
-    private List<Step> steps = null;
+    private List<Ingredient> ingredients;
+    private List<Step> steps;
     private Integer servings;
     private String image;
 

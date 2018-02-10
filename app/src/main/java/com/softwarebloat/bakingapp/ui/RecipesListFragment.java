@@ -1,5 +1,6 @@
 package com.softwarebloat.bakingapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,7 +26,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RecipesListFragment extends Fragment {
+public class RecipesListFragment extends Fragment implements RecipesAdapter.ListItemClickListener {
+
+    public static final String RECIPE_EXTRA = "recipe_extras";
 
     RecyclerView mRecyclerView;
 
@@ -54,7 +57,7 @@ public class RecipesListFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new RecipesAdapter(new ArrayList<Recipe>(0), (MainActivity) getActivity());
+        mAdapter = new RecipesAdapter(new ArrayList<Recipe>(0), this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -78,9 +81,16 @@ public class RecipesListFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                        Log.e(RecipesListFragment.class.getSimpleName(), "Error loading from API");
+                        Log.e(RecipesListFragment.class.getSimpleName(), "Error loading from API: " + t);
                     }
                 });
     }
 
+    @Override
+    public void onListItemClick(Recipe recipe) {
+        Intent recipeStepsIntent = new Intent(this.getActivity(), RecipeStepsActivity.class);
+        recipeStepsIntent.putExtra(RECIPE_EXTRA, recipe);
+
+        startActivity(recipeStepsIntent);
+    }
 }

@@ -7,4 +7,7 @@
 
     <dimen name="recipe_card_height">200dp</dimen>
 
+    <dimen name="step_height">48dp</dimen>
+    <dimen name="ingredient_name">96dp</dimen>
+
 </resources>
