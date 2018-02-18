@@ -37,4 +37,6 @@ dependencies {
     //Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    //Exoplayer
+    compile 'com.google.android.exoplayer:exoplayer:2.6.1'
 }

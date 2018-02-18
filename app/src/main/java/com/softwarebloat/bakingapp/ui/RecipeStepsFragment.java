@@ -4,6 +4,7 @@ package com.softwarebloat.bakingapp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +23,9 @@ import static com.softwarebloat.bakingapp.ui.RecipesListFragment.RECIPE_EXTRA;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecipeStepsFragment extends Fragment implements RecipeStepsAdapter.StepItemClickListener {
+public class RecipeStepsFragment extends Fragment {
+
+    public static final String STEP_KEY = "recipe-step";
 
     RecyclerView mStepsRecyclerView;
     LinearLayoutManager mLayoutManager;
@@ -46,35 +49,24 @@ public class RecipeStepsFragment extends Fragment implements RecipeStepsAdapter.
 
         mIngredients = rootView.findViewById(R.id.tv_recipe_ingredients);
 
+        //TODO: show ingredients in textview and dont open new activity
         mIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ingredientsIntent = new Intent(getActivity(), IngredientsActivity.class);
-                ingredientsIntent.putExtra(RECIPE_EXTRA, recipe);
-                startActivity(ingredientsIntent);
+                Toast.makeText(getActivity(), "ingredients", Toast.LENGTH_SHORT).show();
             }
         });
 
 
 
         mStepsRecyclerView = rootView.findViewById(R.id.rv_steps);
-        mLayoutManager = new LinearLayoutManager(this.getActivity(), VERTICAL, false);
-        mStepsAdapter = new RecipeStepsAdapter(recipe, this);
+        mLayoutManager = new LinearLayoutManager(getContext(), VERTICAL, false);
+        mStepsAdapter = new RecipeStepsAdapter(recipe, (RecipeStepsActivity)getActivity());
 
         mStepsRecyclerView.setLayoutManager(mLayoutManager);
         mStepsRecyclerView.setAdapter(mStepsAdapter);
 
 
         return rootView;
-    }
-
-    @Override
-    public void onStepItemClick(Recipe recipe, int stepIndex) {
-        //TODO: open single step
-        Toast.makeText(
-                this.getActivity(),
-                recipe.getSteps().get(stepIndex).getShortDescription(),
-                Toast.LENGTH_SHORT)
-                .show();
     }
 }
