@@ -15,7 +15,10 @@ import android.widget.Toast;
 
 import com.softwarebloat.bakingapp.R;
 import com.softwarebloat.bakingapp.adapters.RecipeStepsAdapter;
+import com.softwarebloat.bakingapp.models.Ingredient;
 import com.softwarebloat.bakingapp.models.Recipe;
+
+import java.util.List;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.softwarebloat.bakingapp.ui.RecipesListFragment.RECIPE_EXTRA;
@@ -49,19 +52,18 @@ public class RecipeStepsFragment extends Fragment {
 
         mIngredients = rootView.findViewById(R.id.tv_recipe_ingredients);
 
-        //TODO: show ingredients in textview and dont open new activity
-        mIngredients.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "ingredients", Toast.LENGTH_SHORT).show();
-            }
-        });
+        List<Ingredient> ingredients = recipe.getIngredients();
 
+        for (Ingredient ingredient : ingredients) {
+            mIngredients.append(
+                    ingredient.getIngredient() + ": " + ingredient.getQuantity() + " " + ingredient.getMeasure() + "\n\n"
+            );
+        }
 
 
         mStepsRecyclerView = rootView.findViewById(R.id.rv_steps);
         mLayoutManager = new LinearLayoutManager(getContext(), VERTICAL, false);
-        mStepsAdapter = new RecipeStepsAdapter(recipe, (RecipeStepsActivity)getActivity());
+        mStepsAdapter = new RecipeStepsAdapter(recipe, (RecipeStepsActivity) getActivity());
 
         mStepsRecyclerView.setLayoutManager(mLayoutManager);
         mStepsRecyclerView.setAdapter(mStepsAdapter);

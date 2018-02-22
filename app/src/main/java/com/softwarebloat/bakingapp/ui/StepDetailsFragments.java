@@ -51,6 +51,7 @@ public class StepDetailsFragments extends Fragment {
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
             simpleExoPlayerView.setPlayer(mExoPlayer);
 
+            //TODO: set default image if videourl doesn't exists
             Uri videoUrl = Uri.parse(step.getVideoURL());
 
 

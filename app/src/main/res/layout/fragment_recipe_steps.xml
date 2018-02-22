@@ -2,15 +2,20 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context="com.softwarebloat.bakingapp.ui.RecipeStepsFragment"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              tools:context="com.softwarebloat.bakingapp.ui.RecipeStepsFragment">
 
-    <TextView
-        android:id="@+id/tv_recipe_ingredients"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ingredient_name"
-        android:gravity="center"
-        android:text="@string/ingredients"/>
+        android:layout_height="@dimen/ingredient_name">
+
+        <TextView
+            android:id="@+id/tv_recipe_ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ingredient_name"
+            android:text="@string/ingredients"/>
+    </ScrollView>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_steps"
