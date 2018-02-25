@@ -44,28 +44,35 @@ public class StepDetailsFragments extends Fragment {
 
         mStepDescription.setText(step.getDescription());
 
+        //TODO: when screen rotate, detail step fragment disappear
 
-        if(mExoPlayer == null) {
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
-            simpleExoPlayerView.setPlayer(mExoPlayer);
+        String videoUrl = step.getVideoURL();
 
-            //TODO: set default image if videourl doesn't exists
-            Uri videoUrl = Uri.parse(step.getVideoURL());
+        if (!videoUrl.isEmpty()) {
+            Uri videoUri = Uri.parse(videoUrl);
+
+            if (mExoPlayer == null) {
+                TrackSelector trackSelector = new DefaultTrackSelector();
+                LoadControl loadControl = new DefaultLoadControl();
+                mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+                simpleExoPlayerView.setPlayer(mExoPlayer);
 
 
-            String userAgent = Util.getUserAgent(getActivity(), "baking-app");
-            ExtractorMediaSource mediaSource = new ExtractorMediaSource(
-                    videoUrl,
-                    new DefaultDataSourceFactory(getActivity(), userAgent),
-                    new DefaultExtractorsFactory(), null, null);
+                String userAgent = Util.getUserAgent(getActivity(), "baking-app");
+                ExtractorMediaSource mediaSource = new ExtractorMediaSource(
+                        videoUri,
+                        new DefaultDataSourceFactory(getActivity(), userAgent),
+                        new DefaultExtractorsFactory(), null, null);
+                mExoPlayer.prepare(mediaSource);
+                mExoPlayer.setPlayWhenReady(true);
 
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
-            simpleExoPlayerView.hideController();
 
+            }
+        } else {
+            simpleExoPlayerView.setVisibility(View.GONE);
         }
+
+        simpleExoPlayerView.hideController();
 
         return rootView;
     }
@@ -73,6 +80,8 @@ public class StepDetailsFragments extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mExoPlayer.release();
+        if(mExoPlayer != null) {
+            mExoPlayer.release();
+        }
     }
 }
