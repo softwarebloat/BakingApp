@@ -42,24 +42,26 @@ public class RecipeStepsActivity extends AppCompatActivity
         RecipeStepsFragment recipeStepsFragment = new RecipeStepsFragment();
 //                recipeStepsFragment.setArguments();
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.recipe_steps_container, recipeStepsFragment)
-                .commit();
-
-        if (findViewById(R.id.recipe_detail_container) != null) {
-            mTwoPane = true;
-
-            StepDetailsFragments stepDetailsFragments = new StepDetailsFragments();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(STEP_KEY, recipe.getSteps().get(0));
-            stepDetailsFragments.setArguments(bundle);
-
+        if (savedInstanceState == null) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.recipe_detail_container, stepDetailsFragments)
+                    .replace(R.id.recipe_steps_container, recipeStepsFragment)
                     .commit();
 
-        } else {
-            mTwoPane = false;
+            if (findViewById(R.id.recipe_detail_container) != null) {
+                mTwoPane = true;
+
+                StepDetailsFragments stepDetailsFragments = new StepDetailsFragments();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(STEP_KEY, recipe.getSteps().get(0));
+                stepDetailsFragments.setArguments(bundle);
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.recipe_detail_container, stepDetailsFragments)
+                        .commit();
+
+            } else {
+                mTwoPane = false;
+            }
         }
 
 
@@ -73,7 +75,7 @@ public class RecipeStepsActivity extends AppCompatActivity
         bundle.putSerializable(STEP_KEY, recipe.getSteps().get(index));
         stepDetailsFragments.setArguments(bundle);
 
-        if(mTwoPane) {
+        if (mTwoPane) {
             fragmentManager.beginTransaction()
                     .replace(R.id.recipe_detail_container, stepDetailsFragments).addToBackStack(null)
                     .commit();

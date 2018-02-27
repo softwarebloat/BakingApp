@@ -44,8 +44,6 @@ public class StepDetailsFragments extends Fragment {
 
         mStepDescription.setText(step.getDescription());
 
-        //TODO: when screen rotate, detail step fragment disappear
-
         String videoUrl = step.getVideoURL();
 
         if (!videoUrl.isEmpty()) {
